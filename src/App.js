@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import CacheBlockFIFO from './cache-block/Cache-Block-FIFO';
+import CacheBlockLFU from './cache-block/Cache-Block-LFU';
 
 export class App extends React.Component {
   constructor(props) {
@@ -35,7 +36,10 @@ export class App extends React.Component {
 
         <input type='button' onClick={() => this.handleSimulationChange(true)}></input>
 
+        <div className='cache-container'>
         <CacheBlockFIFO numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockFIFO>
+        <CacheBlockLFU numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLFU>
+        </div>
       </div>
     );
   }

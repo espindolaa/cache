@@ -8,7 +8,8 @@ export class CacheBlockFIFO extends React.Component {
         this.state = {
             hit: 0,
             capacityMiss: 0,
-            compulsoryMiss: 0
+            compulsoryMiss: 0,
+            currentNumber: null
         }
     }
     async componentWillReceiveProps(nextProps) {
@@ -25,6 +26,7 @@ export class CacheBlockFIFO extends React.Component {
         for (let i = 0; i < numbers.length; i++) {
             const currentNumber = numbers[i];
             await delay(() => {} , 500);
+            await this.setState({currentNumber: currentNumber});
             console.debug('tick');
             if (typeof numbersCached.find(n => n === currentNumber) !== 'undefined') {
                 await this.setState({ hit: this.state.hit + 1 });
@@ -57,19 +59,21 @@ export class CacheBlockFIFO extends React.Component {
     }
 
     addToTable(line, value) {
-        document.getElementById(line).innerHTML = value;
+        document.getElementById(`fifo-${line}`).innerHTML = value;
     }
 
 
     render() {
         let rows = [];
         for (let i = 0; i < this.props.numberOfLines; i++) {
-            rows.push(<tr key={i} id={i}><td>a</td></tr>);
+            rows.push(<tr key={i} id={`fifo-${i}`}><td>-</td></tr>);
         }
 
         return (
             <div>
-                {this.props.numberOfLines}
+                <span>FIFO</span>
+
+                {this.state.currentNumber}
                 <table>
                     <tbody>
                         {rows}
