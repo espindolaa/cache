@@ -2,12 +2,14 @@ import React from 'react';
 import './App.css';
 import CacheBlockFIFO from './cache-block/Cache-Block-FIFO';
 import CacheBlockLFU from './cache-block/Cache-Block-LFU';
+import CacheBlockLRU from './cache-block/Cache-Block-LRU';
 
 export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       numberOfLines: 4,
+      delay: 250,
       numbers: [],
       simulating: false
     }
@@ -37,8 +39,9 @@ export class App extends React.Component {
         <input type='button' onClick={() => this.handleSimulationChange(true)}></input>
 
         <div className='cache-container'>
-        <CacheBlockFIFO numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockFIFO>
-        <CacheBlockLFU numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLFU>
+        <CacheBlockFIFO delay={ this.state.delay } numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockFIFO>
+        <CacheBlockLFU  delay={ this.state.delay } numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLFU>
+        <CacheBlockLRU  delay={ this.state.delay } numberOfLines={ this.state.numberOfLines } numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLRU>
         </div>
       </div>
     );

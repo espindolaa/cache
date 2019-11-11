@@ -25,9 +25,8 @@ export class CacheBlockFIFO extends React.Component {
         let currentLine = 0;
         for (let i = 0; i < numbers.length; i++) {
             const currentNumber = numbers[i];
-            await delay(() => {} , 500);
+            await delay(() => {} , this.props.delay);
             await this.setState({currentNumber: currentNumber});
-            console.debug('tick');
             if (typeof numbersCached.find(n => n === currentNumber) !== 'undefined') {
                 await this.setState({ hit: this.state.hit + 1 });
                 continue;
@@ -45,10 +44,10 @@ export class CacheBlockFIFO extends React.Component {
             currentLine = this.getNextLine(currentLine, numberOfLines);
             numbersAccessed.push(currentNumber);
     }
-        console.debug(JSON.stringify(numbersCached));
-        console.debug('H:' + this.state.hit);
-        console.debug('CAP:' + this.state.capacityMiss);
-        console.debug('COMP:' + this.state.compulsoryMiss);
+        // console.debug(JSON.stringify(numbersCached));
+        // console.debug('H:' + this.state.hit);
+        // console.debug('CAP:' + this.state.capacityMiss);
+        // console.debug('COMP:' + this.state.compulsoryMiss);
     }
 
     getNextLine(currentLine, numberOfLines) {
@@ -59,14 +58,19 @@ export class CacheBlockFIFO extends React.Component {
     }
 
     addToTable(line, value) {
-        document.getElementById(`fifo-${line}`).innerHTML = value;
+        const element = document.getElementById(`fifo-${line}`);
+        if(element.innerHTML === '-') {
+            element.innerHTML = value;
+            return;
+        }
+        element.innerHTML += `, ${value}`;
     }
 
 
     render() {
         let rows = [];
         for (let i = 0; i < this.props.numberOfLines; i++) {
-            rows.push(<tr key={i} id={`fifo-${i}`}><td>-</td></tr>);
+            rows.push(<tr key={i}><td id={`fifo-${i}`}>-</td></tr>);
         }
 
         return (

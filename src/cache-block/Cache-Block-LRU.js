@@ -2,7 +2,7 @@ import React from 'react';
 import './Cache-Block.css';
 import { delay } from 'q';
 
-export class CacheBlockLFU extends React.Component {
+export class CacheBlockLRU extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ export class CacheBlockLFU extends React.Component {
     }
     async componentWillReceiveProps(nextProps) {
         if (nextProps.simulating) {
-            await this.LFU(nextProps.numbers, nextProps.numberOfLines);
+            await this.LRU(nextProps.numbers, nextProps.numberOfLines);
         }
     }
 
@@ -26,15 +26,19 @@ export class CacheBlockLFU extends React.Component {
         return frequencyOfAccess;
     }
 
-    getLeastFrequentlyUsedIndex(frequencyOfAccess) {
-        const min = Math.min(...frequencyOfAccess);
-        return frequencyOfAccess.indexOf(min);
+    getLeastRecentlyUsedIndex(frequencyOfAccess) {
+        const max = Math.max(...frequencyOfAccess);
+        return frequencyOfAccess.indexOf(max);
     }
 
-    async LFU(numbers, numberOfLines) {
+    getIncrementedFrequency(frequencyOfAccess) {
+        return frequencyOfAccess.map(f => ++f);
+    }
+
+    async LRU(numbers, numberOfLines) {
         const numbersAccessed = [];
         const numbersCached = [];
-        const frequencyOfAccess = this.setupFrequencyOfAcess(numberOfLines);
+        let frequencyOfAccess = [];
         for (let i = 0; i < numbers.length; i++) {
             const currentNumber = numbers[i];
             await delay(() => { }, this.props.delay);
@@ -42,21 +46,24 @@ export class CacheBlockLFU extends React.Component {
             if (typeof numbersCached.find(n => n === currentNumber) !== 'undefined') {
                 await this.setState({ hit: this.state.hit + 1 });
                 const position = numbersCached.indexOf(currentNumber);
-                frequencyOfAccess[position] += 1;
+                frequencyOfAccess = this.getIncrementedFrequency(frequencyOfAccess);
+                frequencyOfAccess[position] = 0;
                 continue;
             }
             if (typeof numbersAccessed.find(n => n === currentNumber) !== 'undefined') {
                 await this.setState({ capacityMiss: this.state.capacityMiss + 1 });
-                const position = this.getLeastFrequentlyUsedIndex(frequencyOfAccess);
+                const position = this.getLeastRecentlyUsedIndex(frequencyOfAccess);
                 numbersCached[position] = currentNumber;
+                frequencyOfAccess = this.getIncrementedFrequency(frequencyOfAccess);
                 frequencyOfAccess[position] = 0;
                 this.addToTable(position, currentNumber);
                 continue;
             }
             await this.setState({ compulsoryMiss: this.state.compulsoryMiss + 1 });
             if (numbersCached.length === numberOfLines) {
-                const position = this.getLeastFrequentlyUsedIndex(frequencyOfAccess);
+                const position = this.getLeastRecentlyUsedIndex(frequencyOfAccess);
                 numbersCached[position] = currentNumber;
+                frequencyOfAccess = this.getIncrementedFrequency(frequencyOfAccess);
                 frequencyOfAccess[position] = 0;
                 this.addToTable(position, currentNumber);
                 numbersAccessed.push(currentNumber);
@@ -64,6 +71,7 @@ export class CacheBlockLFU extends React.Component {
             }
             const position = numbersCached.length;
             numbersCached[position] = currentNumber;
+            frequencyOfAccess = this.getIncrementedFrequency(frequencyOfAccess);
             frequencyOfAccess[position] = 0;
             this.addToTable(position, currentNumber);
             numbersAccessed.push(currentNumber);
@@ -75,7 +83,7 @@ export class CacheBlockLFU extends React.Component {
     }
 
     addToTable(line, value) {
-        const element = document.getElementById(`lfu-${line}`);
+        const element = document.getElementById(`lru-${line}`);
         if(element.innerHTML === '-') {
             element.innerHTML = value;
             return;
@@ -87,12 +95,12 @@ export class CacheBlockLFU extends React.Component {
     render() {
         let rows = [];
         for (let i = 0; i < this.props.numberOfLines; i++) {
-            rows.push(<tr key={i}><td id={`lfu-${i}`}>-</td></tr>);
+            rows.push(<tr key={i}><td id={`lru-${i}`}>-</td></tr>);
         }
 
         return (
             <div>
-                <span>LFU</span>
+                <span>LRU</span>
                 {this.state.currentNumber}
                 <table>
                     <tbody>
@@ -107,4 +115,4 @@ export class CacheBlockLFU extends React.Component {
     }
 }
 
-export default CacheBlockLFU;
+export default CacheBlockLRU;
