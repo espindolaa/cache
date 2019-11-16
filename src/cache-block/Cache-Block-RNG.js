@@ -2,7 +2,7 @@ import React from 'react';
 import './Cache-Block.css';
 import { delay } from 'q';
 
-export class CacheBlockFIFO extends React.Component {
+export class CacheBlockRNG extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,26 +34,27 @@ export class CacheBlockFIFO extends React.Component {
                 await this.setState({ capacityMiss: this.state.capacityMiss + 1 });
                 numbersCached[currentLine] = currentNumber;
                 this.addToTable(currentLine, currentNumber);
-                currentLine = this.getNextLine(currentLine, numberOfLines);
+                currentLine = this.getNextLine(numbersCached.length, numberOfLines);
                 continue;
             }
             await this.setState({ compulsoryMiss: this.state.compulsoryMiss + 1 });
             numbersCached[currentLine] = currentNumber;
             this.addToTable(currentLine, currentNumber);
-            currentLine = this.getNextLine(currentLine, numberOfLines);
+            currentLine = this.getNextLine(numbersCached.length, numberOfLines);
             numbersAccessed.push(currentNumber);
         }
     }
 
-    getNextLine(currentLine, numberOfLines) {
-        if (currentLine + 1 === numberOfLines) {
-            return 0;
-        }
-        return currentLine + 1;
+    getNextLine(linesUsed, numberOfLines) {
+        console.debug(linesUsed);
+        console.debug(numberOfLines);
+        return linesUsed < numberOfLines
+            ? linesUsed
+            : Math.floor(Math.random() * (numberOfLines - 1));
     }
 
     addToTable(line, value) {
-        const element = document.getElementById(`fifo-${line}`);
+        const element = document.getElementById(`rng-${line}`);
         if (element.innerHTML === '-') {
             element.innerHTML = value;
             return;
@@ -65,12 +66,12 @@ export class CacheBlockFIFO extends React.Component {
     render() {
         let rows = [];
         for (let i = 0; i < this.props.numberOfLines; i++) {
-            rows.push(<tr key={i}><td id={`fifo-${i}`}>-</td></tr>);
+            rows.push(<tr key={i}><td id={`rng-${i}`}>-</td></tr>);
         }
 
         return (
             <div>
-                <span>FIFO</span>
+                <span>RNG</span>
 
                 {this.state.currentNumber}
                 <table>
@@ -86,4 +87,4 @@ export class CacheBlockFIFO extends React.Component {
     }
 }
 
-export default CacheBlockFIFO;
+export default CacheBlockRNG;

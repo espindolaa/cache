@@ -76,15 +76,11 @@ export class CacheBlockLRU extends React.Component {
             this.addToTable(position, currentNumber);
             numbersAccessed.push(currentNumber);
         }
-        // console.debug(JSON.stringify(numbersCached));
-        // console.debug('H:' + this.state.hit);
-        // console.debug('CAP:' + this.state.capacityMiss);
-        // console.debug('COMP:' + this.state.compulsoryMiss);
     }
 
     addToTable(line, value) {
         const element = document.getElementById(`lru-${line}`);
-        if(element.innerHTML === '-') {
+        if (element.innerHTML === '-') {
             element.innerHTML = value;
             return;
         }
@@ -107,9 +103,9 @@ export class CacheBlockLRU extends React.Component {
                         {rows}
                     </tbody>
                 </table>
-                <span>Hit: {this.state.hit} </span>
-                <span>Capacity Miss: {this.state.capacityMiss} </span>
-                <span>Compulsory Miss: {this.state.compulsoryMiss} </span>
+                <span>Hit: {this.state.hit}</span>
+                <span>Capacity Miss: {this.state.capacityMiss}</span>
+                <span>Compulsory Miss: {this.state.compulsoryMiss}</span>
             </div>
         );
     }
