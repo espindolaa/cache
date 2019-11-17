@@ -1,11 +1,8 @@
 import React from 'react';
-import CacheBlockFIFO from './cache-block/Cache-Block-FIFO';
-import CacheBlockLFU from './cache-block/Cache-Block-LFU';
-import CacheBlockLRU from './cache-block/Cache-Block-LRU';
-import CacheBlockRNG from './cache-block/Cache-Block-RNG';
-import './App.css';
+import CacheController from '../cache/Cache-Controller';
+import './Main-Page.css';
 
-export class App extends React.Component {
+export class MainPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,14 +44,11 @@ export class App extends React.Component {
         <input type='button' onClick={() => this.handleSimulationChange(true)} value='Go' />
 
         <div className='cache-container'>
-          <CacheBlockFIFO delay={this.state.delay} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockFIFO>
-          <CacheBlockLFU delay={this.state.delay} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLFU>
-          <CacheBlockLRU delay={this.state.delay} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockLRU>
-          <CacheBlockRNG delay={this.state.delay} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers} simulating={this.state.simulating}></CacheBlockRNG>
+          <CacheController simulating={this.state.simulating} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers}></CacheController>
         </div>
       </div>
     );
   }
 }
 
-export default App;
+export default MainPage;
