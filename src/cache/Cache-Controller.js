@@ -41,7 +41,7 @@ export default class CacheController extends React.Component {
                 <CacheBlockFIFO number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockFIFO>
                 <CacheBlockLFU number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockLFU>
                 <CacheBlockLRU number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockLRU>
-                <CacheBlockRNG number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockRNG> */}
+                <CacheBlockRNG number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockRNG>
             </div>)
     };
 }
