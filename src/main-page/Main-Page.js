@@ -36,17 +36,17 @@ export class MainPage extends React.Component {
       <div className="app">
         <section>
           <div id="inputs">
-            <p>  
-              How many lines are in the cache?
+            <div className="mb-10px">  
+              <span>How many lines are in the cache?</span>
               <input id='lines-input' type="number" min='1' defaultValue='4' onChange={(e) => this.handleNumberOfLinesChange(e)} />
-            </p>
-            <p>
-              Upload the csv here:
+            </div>
+            <div className="mb-10px">
+              <span>Upload the csv here:</span>
               <input id='file-input' type="file" onChange={() => this.getNumbers()} />
-            </p>
-            <p>
+            </div>
+            <div>
               <input type='button' onClick={() => this.handleSimulationChange(true)} value='Go' />
-            </p>
+            </div>
           </div>
         <div className='cache-container'>
           <CacheController simulating={this.state.simulating} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers}></CacheController>
