@@ -1,3 +1,27 @@
 .app {
   display: grid;
+  background: rgb(50, 132, 255);
+  color: azure;
+  font: normal 15pt Roboto;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px;
+  
+}
+
+div#inputs {
+  background: rgb(32, 32, 32);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 500px;
+  margin: auto;
+  box-shadow: 3px 3px 7px rgba(65, 65, 65, 0.479);
+}
+
+input#lines-input {
+  margin-left: 10px;
+  border-radius: 5px;
 }
