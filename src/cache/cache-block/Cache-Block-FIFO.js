@@ -105,7 +105,7 @@ export class CacheBlockFIFO extends React.Component {
         }
 
         return (
-            <div>
+            <div className="cacheWrapper">
                 <span>FIFO</span>
 
                 {this.state.currentNumber}
@@ -114,9 +114,19 @@ export class CacheBlockFIFO extends React.Component {
                         {rows}
                     </tbody>
                 </table>
-                <span>Hit: {this.state.hit}</span>
-                <span>Capacity Miss: {this.state.capacityMiss}</span>
-                <span>Compulsory Miss: {this.state.compulsoryMiss}</span>
+                <div className="hitsMisses">
+                  <div className="info">
+                    <div className="info-name">Hit:</div><div>{this.state.hit}</div>
+                  </div>
+
+                  <div className="info">
+                    <div className="info-name">Capacity Miss:</div><div>{this.state.capacityMiss}</div>
+                  </div>
+
+                  <div className="info">
+                    <div className="info-name">Compulsory Miss:</div><div>{this.state.compulsoryMiss}</div>
+                  </div>
+                </div>
             </div>
         );
     }

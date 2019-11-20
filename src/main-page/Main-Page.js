@@ -48,7 +48,7 @@ export class MainPage extends React.Component {
               <input type='button' onClick={() => this.handleSimulationChange(true)} value='Go' />
             </p>
           </div>
-        <div className='cache-container'>
+        <div>
           <CacheController simulating={this.state.simulating} numberOfLines={this.state.numberOfLines} numbers={this.state.numbers}></CacheController>
         </div>
         </section>

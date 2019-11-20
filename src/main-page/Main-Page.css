@@ -6,7 +6,8 @@
   text-align: center;
   border-radius: 20px;
   padding: 30px;
-  
+  margin: auto;
+  max-width: 1000px;
 }
 
 div#inputs {

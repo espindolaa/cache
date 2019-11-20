@@ -1,4 +1,31 @@
 table {
     border: 1px solid black;
     min-width: 100px;
+    margin: auto;
+}
+
+.caches {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cacheWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.hitsMisses {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+}
+
+.info-name {
+  text-align: start;
+  flex-grow: 1;
+  margin-right: 10px;
 }

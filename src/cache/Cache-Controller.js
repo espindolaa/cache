@@ -37,7 +37,7 @@ export default class CacheController extends React.Component {
 
     render() {
         return (
-            <div className='cache-container'>
+            <div className='caches'>
                 <CacheBlockFIFO number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockFIFO>
                 <CacheBlockLFU number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockLFU>
                 <CacheBlockLRU number$={this.state.number$} numberOfLines={this.props.numberOfLines}></CacheBlockLRU>
